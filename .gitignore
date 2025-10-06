@@ -13,3 +13,46 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+
+# IDE files and local configurations
+# ==================================
+# Files and directories created by Android Studio and IntelliJ.
+# These contain local configuration and should not be shared.
+.idea/
+
+# Gradle files
+# ==================================
+# The .gradle directory is a local cache for Gradle and can be very large.
+.gradle/
+# The build directory contains all compiled code, resources, and APKs.
+/build/
+
+# Gradle Build Cache and other temporary files
+.gradle-build-cache/
+.gradletasknamecache/
+gradle-app.setting
+
+# Exclude generated Gradle wrapper files (the .jar is usually kept)
+!gradle/wrapper/gradle-wrapper.jar
+
+# Application files
+# ==================================
+# Built application packages, binaries, and compiled code.
+*.apk
+*.aab
+*.ap_
+*.apks
+*.dex
+.externalNativeBuild/
+.cxx/
+
+# Log and temporary files
+# ==================================
+# Various log files, captures, and system files.
+*.log
+/captures/
+*.hprof
+*.lock
+*.snapshot
+*~
