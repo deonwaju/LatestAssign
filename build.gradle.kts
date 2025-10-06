@@ -1,6 +1,31 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+val packageName by extra("com.deontch.movieCharactersApp")
+
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
+}
+
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.hilt.plugin) apply false
+    alias(libs.plugins.ksp.plugin) apply false
+    alias(libs.plugins.kotlinCompose) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
+}
+
+subprojects {
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
+            freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+            freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.Experimental"
+        }
+    }
 }
