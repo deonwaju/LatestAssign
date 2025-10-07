@@ -1,6 +1,5 @@
 import utils.providetestDependencies
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     `app-module-config`
     alias(libs.plugins.hilt.plugin)

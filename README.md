@@ -100,7 +100,7 @@ If I had more time, here are some features and improvements I would consider add
 -   **Accessibility Improvements**: Enhance content descriptions and navigation for accessibility services to make the app more usable for all users.
 -   **CI/CD Integration**: Set up a continuous integration pipeline (e.g., using GitHub Actions) to automatically build and run tests on every push.
 -   **Settings Screen**: Add a settings screen where users could, for example, clear the local cache or toggle between light and dark themes.
--   Maybe more modern animations 
+-   A Splash Screen and Maybe more modern animations
 
 ## Installation
 

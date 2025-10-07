@@ -1,5 +1,8 @@
 package com.deontch.characterdetail.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -75,7 +78,16 @@ fun MovieCharacterDetailScreen(
 
                 state.characterDetail != null -> {
                     state.characterDetail?.let {
-                        CardCharacterDetailWithAnimation(character = it)
+                        AnimatedVisibility(
+                            visible = true,
+                            enter = slideInVertically(
+                                animationSpec = tween(durationMillis = 1800, delayMillis = 1000),
+                                initialOffsetY = { fullHeight -> fullHeight }
+                            ),
+                            modifier = Modifier.align(Alignment.Center)
+                        ) {
+                            CardCharacterDetailWithAnimation(character = it)
+                        }
                     }
                 }
 
