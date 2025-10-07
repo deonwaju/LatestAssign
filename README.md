@@ -111,7 +111,7 @@ If I had more time, here are some features and improvements I would consider add
    git clone https://github.com/deonwaju/OpenAssign.git
 
 2.  **Add API Credentials:**
-    In the root directory of the project, create a file named `local.properties` or just add the credentials if the file exists. Add your API base URL and authentication token to this file as follows:
+    In the root directory of the project, create a file named `local.properties` or just add the credentials if the file exists. Add your API base URL `CHARACTERS_API_BASE_URL` and authentication token `CHARACTERS_AUTH_TOKEN` to this file as follows:
     Note on Security: This method prevents secrets from being committed to version control. In a professional production environment, these keys would be stored even more securely, using a service like HashiCorp Vault or managed via GitHub Secrets for CI/CD pipelines.
 
 3. Open the project in Android Studio.
