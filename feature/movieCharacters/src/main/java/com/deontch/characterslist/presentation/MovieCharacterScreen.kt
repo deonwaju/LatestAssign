@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -78,12 +79,16 @@ fun MovieCharacterScreen(onCharacterCardClick: (String) -> Unit) {
 
         when {
             state.isLoading -> LoadingView()
-            errorMessage != null -> ErrorView(errorMessage)
+            errorMessage != null -> ErrorView(
+                errorMessage
+            ) { viewModel.onViewAction(MovieCharacterViewAction.Retry) }
+
             state.searchQuery.isNotEmpty() -> CharacterList(
                 state.searchQueryResponse,
                 listState,
                 onCharacterCardClick
             )
+
             else -> CharacterList(state.characterList, listState, onCharacterCardClick)
         }
     }
@@ -101,7 +106,8 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        label = { Text("Search Characters", color = Color.White.copy(alpha = 0.7f)) },        singleLine = true,
+        label = { Text("Search Characters", color = Color.White.copy(alpha = 0.7f)) },
+        singleLine = true,
         textStyle = TextStyle(color = Color.White),
         trailingIcon = {
             IconButton(onClick = onSearch) {
@@ -195,16 +201,33 @@ fun CharacterCard(
         }
     }
 }
+
 @Composable
-fun ErrorView(messageState: MessageState.Inline) {
+fun ErrorView(
+    messageState: MessageState.Inline,
+    onRetry: () -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = messageState.message,
-            color = MaterialTheme.colorScheme.error
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = messageState.message,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            if (messageState.isRetryAble) {
+                Button(onClick = onRetry) {
+                    Text("Retry")
+                }
+            }
+        }
     }
 }
 

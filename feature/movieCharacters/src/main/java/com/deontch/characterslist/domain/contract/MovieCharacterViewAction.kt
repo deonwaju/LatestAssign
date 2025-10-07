@@ -20,4 +20,9 @@ sealed interface MovieCharacterViewAction: BaseViewAction {
      * @param query The new search text from the UI.
      */
     data class UpdateSearchQuery(val query: String) : MovieCharacterViewAction
+
+    /**
+     * Action to retry the last failed operation.
+     */
+    data object Retry : MovieCharacterViewAction
 }

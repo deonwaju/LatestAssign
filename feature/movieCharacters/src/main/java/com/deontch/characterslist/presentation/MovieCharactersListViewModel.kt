@@ -31,12 +31,17 @@ internal class MovieCharactersListViewModel @Inject constructor(
     dispatcherProvider
 ) {
     private var searchJob: Job? = null
+    private var lastAction: MovieCharacterViewAction? = null
 
     override fun onViewAction(viewAction: MovieCharacterViewAction) {
+        if (viewAction != MovieCharacterViewAction.Retry) {
+            lastAction = viewAction
+        }
         when (viewAction) {
             MovieCharacterViewAction.GetCharacters -> getCharacters()
             is MovieCharacterViewAction.UpdateSearchQuery -> updateSearchQuery(viewAction.query)
             MovieCharacterViewAction.SearchCharacters -> searchCharacters()
+            MovieCharacterViewAction.Retry -> retryLastAction()
         }
     }
 
@@ -53,10 +58,9 @@ internal class MovieCharactersListViewModel @Inject constructor(
     private fun updateSearchQuery(query: String) {
         updateState { state -> state.copy(searchQuery = query) }
 
-        // Cancel any ongoing search
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(300) // debounce 300ms
+            delay(300)
             if (query.isNotBlank()) {
                 searchCharacters()
             } else {
@@ -90,16 +94,23 @@ internal class MovieCharactersListViewModel @Inject constructor(
         updateState { state ->
             state.copy(
                 isLoading = false,
-                errorState = MessageState.Inline(errorMessage.cleanMessage())
+                errorState = MessageState.Inline(errorMessage.cleanMessage(), isRetryAble = true)
             )
         }
         dispatchViewEvent(
             ViewEvent.Effect(
                 MovieCharacterSideEffect.ShowErrorMessage(
-                    errorMessageState = MessageState.Inline(errorMessage)
+                    errorMessageState = MessageState.Inline(errorMessage, isRetryAble = true)
                 )
             )
         )
+    }
+
+    private fun retryLastAction() {
+        lastAction?.let {
+            updateState { state -> state.copy(errorState = null, isLoading = true) }
+            onViewAction(it)
+        }
     }
 
     private fun processCharacterListResponse(characters: List<MovieCharacterDomainModel>) {
