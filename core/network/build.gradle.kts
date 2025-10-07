@@ -6,27 +6,37 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+val localProperties = Properties()
+
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists() && localPropertiesFile.isFile) {
+    localPropertiesFile.inputStream().use { input ->
+        localProperties.load(input)
+    }
+} else {
+    logger.warn("local.properties file not found. API keys will not be available.")
+}
+
 val keystoreFile: File = project.rootProject.file("gradle.properties")
 val properties = Properties()
 properties.load(keystoreFile.inputStream())
 
-val charactersAuthToken = properties.getProperty("CHARACTERS_AUTH_TOKEN") ?: ""
-val baseUrl = properties.getProperty("CHARACTERS_API_BASE_URL") ?: ""
-
 android {
     namespace = "com.deontch.core.network"
 
-    defaultConfig {
-        buildConfigField(
-            type = "String",
-            name = "CHARACTERS_AUTH_TOKEN",
-            value = charactersAuthToken
-        )
+    defaultConfig {        buildConfigField(
+        type = "String",
+        name = "CHARACTERS_AUTH_TOKEN",
+        // This line is correct
+        value = "\"${localProperties.getProperty("CHARACTERS_AUTH_TOKEN") ?: ""}\""
+    )
 
         buildConfigField(
             type = "String",
             name = "CHARACTERS_API_BASE_URL",
-            value = baseUrl
+            // This is the corrected line: removed the extra quote at the start
+            value = "\"${localProperties.getProperty("CHARACTERS_API_BASE_URL") ?: ""}\""
         )
     }
 }

@@ -2,6 +2,7 @@ package com.deontch.characterslist.presentation
 
 import android.app.Activity
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -58,7 +59,8 @@ fun MovieCharacterScreen(onCharacterCardClick: (String) -> Unit) {
         context = context
     )
 
-    // Trigger initial load
+    BackHandler { activity?.finish() }
+
     LaunchedEffect(Unit) {
         viewModel.onViewAction(MovieCharacterViewAction.GetCharacters)
     }
@@ -82,9 +84,7 @@ fun MovieCharacterScreen(onCharacterCardClick: (String) -> Unit) {
                 listState,
                 onCharacterCardClick
             )
-
             else -> CharacterList(state.characterList, listState, onCharacterCardClick)
-//            TODO(Fix this)
         }
     }
 }

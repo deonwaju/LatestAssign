@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.deontch.localdata.AppDatabase
-import com.deontch.sharedPreference.SharedPref
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,15 +31,6 @@ object LocalModule {
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-    }
-
-    /*Provides Session Manager*/
-    @Singleton
-    @Provides
-    fun providesSharedPreference(
-        sharedPreferences: SharedPreferences,
-    ): SharedPref {
-        return SharedPref(sharedPreferences)
     }
 
     @Singleton
