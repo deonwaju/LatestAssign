@@ -5,11 +5,10 @@ This app showcases best practices in modern Android development, including a rea
 and comprehensive unit testing. 
 The UI replicates a trending liquid glass pattern. A plus is also the animation at the details screen card
 
-List view
-https://github.com/user-attachments/assets/64c273e0-1d06-4140-9f85-ef989bed0f2e
 
-Detail view with animations
-https://github.com/user-attachments/assets/4fa4e265-2392-4295-94b2-f77fe7ad225c
+![List view] (https://github.com/user-attachments/assets/64c273e0-1d06-4140-9f85-ef989bed0f2e)
+
+![Detail view with animations] (https://github.com/user-attachments/assets/4fa4e265-2392-4295-94b2-f77fe7ad225c)
 
 ## Table of Contents
 
