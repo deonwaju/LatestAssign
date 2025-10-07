@@ -6,9 +6,15 @@ and comprehensive unit testing.
 The UI replicates a trending liquid glass pattern. A plus is also the animation at the details screen card
 
 
-![List view]([samplescreen/clip 1.mov](https://github.com/deonwaju/LatestAssign/blob/57d671921bc29eee6d2e2b02cc79f12cfd26f202/samplescreen/clip%201.mov))
+https://github.com/user-attachments/assets/f3229bb5-7d43-4818-a4a7-6ddd8d302945
 
-![Detail view with animations](https://github.com/deonwaju/LatestAssign/blob/57d671921bc29eee6d2e2b02cc79f12cfd26f202/samplescreen/clip%202.mov)
+
+
+https://github.com/user-attachments/assets/506729de-9d37-4e9e-9206-8bfd3cdf3ded
+
+
+
+
 ## Table of Contents
 
 - [Features](#features)
