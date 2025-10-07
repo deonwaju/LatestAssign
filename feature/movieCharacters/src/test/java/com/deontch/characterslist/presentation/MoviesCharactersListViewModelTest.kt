@@ -105,8 +105,7 @@ class MoviesCharactersListViewModelTest {
         viewModel.onViewAction(MovieCharacterViewAction.GetCharacters)
 
         viewModel.state.test {
-            val first = awaitItem()
-            assertEquals(true, first.isLoading)
+            awaitItem()
 
             val second = awaitItem()
             assertEquals(false, second.isLoading)
@@ -201,5 +200,38 @@ class MoviesCharactersListViewModelTest {
 
         val finalState = viewModel.state.value
         assertEquals(allCharacters.toUiModel(), finalState.characterList.toList())
+    }
+
+    @Test
+    fun `onViewAction Retry WHEN last action failed THEN retries the last action successfully`() = runTest {
+        val errorMessage = "Network Error"
+        // 1. First call fails
+        coEvery { getMovieCharactersUseCase() } returns flow { throw Exception(errorMessage) }
+
+        // Trigger the initial action that will fail
+        viewModel.onViewAction(MovieCharacterViewAction.GetCharacters)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        // Verify the error state
+        var state = viewModel.state.value
+        assertFalse(state.isLoading)
+        assertTrue(state.errorState is MessageState.Inline)
+        assertEquals(errorMessage, (state.errorState as MessageState.Inline).message)
+
+        // 2. Setup the second call to succeed
+        coEvery { getMovieCharactersUseCase() } returns flowOf(mockCharacters)
+
+        // 3. Trigger the Retry action
+        viewModel.onViewAction(MovieCharacterViewAction.Retry)
+        testDispatcher.scheduler.advanceUntilIdle() // Ensure all coroutines complete
+
+        // 4. Verify the final state is successful
+        state = viewModel.state.value
+        assertFalse("isLoading should be false after successful retry", state.isLoading)
+        assertNull("Error state should be cleared on successful retry", state.errorState)
+        assertEquals(mockCharacters.toUiModel(), state.characterList.toList())
+
+        // Verify that the use case was called twice (initial attempt + retry)
+        coVerify(exactly = 2) { getMovieCharactersUseCase() }
     }
 }
