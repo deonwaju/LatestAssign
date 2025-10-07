@@ -12,7 +12,6 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:localdata"))
-    implementation(project(":core:securestore"))
 
     implementation(libs.hilt.android)
     implementation(libs.room.ktx)
