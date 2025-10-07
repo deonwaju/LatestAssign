@@ -9,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,7 +53,7 @@ import androidx.compose.ui.unit.sp
 import com.deontch.characterdetail.presentation.model.MovieCharacterDetailUiModel
 
 @Composable
-fun InspectableCard(
+fun CardCharacterDetailWithAnimation(
     modifier: Modifier = Modifier,
     character: MovieCharacterDetailUiModel
 ) {
@@ -83,7 +85,14 @@ fun InspectableCard(
     )
 
     Box(
-        modifier = modifier, contentAlignment = Alignment.Center
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                Brush.linearGradient(
+                    colors = listOf(Color(0xFF81D4FA), Color(0xFF03A9F4))
+                )
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
@@ -120,18 +129,18 @@ fun InspectableCard(
                     }
                 }
                 .pointerInput(Unit) {
-                    detectTapGestures(
-                        onDoubleTap = {
-                            isFlipped = !isFlipped
-                        })
+                    detectTapGestures(onDoubleTap = {
+                        isFlipped = !isFlipped
+                    })
                 }
                 .graphicsLayer {
                     this.rotationY = flipRotation + animatedRotationY
                     this.rotationX = animatedRotationX
                     cameraDistance = 12f * localDensity.density
-                }, contentAlignment = Alignment.Center
+                },
+            contentAlignment = Alignment.Center
         ) {
-            CharacterCard(character)
+            CharacterCard(character = character)
         }
     }
 }
@@ -140,12 +149,6 @@ fun InspectableCard(
 fun CharacterCard(character: MovieCharacterDetailUiModel) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.linearGradient(
-                    colors = listOf(Color(0xFF81D4FA), Color(0xFF03A9F4))
-                )
-            )
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -195,6 +198,24 @@ fun CharacterCard(character: MovieCharacterDetailUiModel) {
                         modifier = Modifier.size(100.dp),
                         tint = Color.White.copy(alpha = 0.8f)
                     )
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Double tap card edges to flip",
+                            color = Color.White.copy(alpha = 0.8f),
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            text = "Drag card edges to interact",
+                            color = Color.White.copy(alpha = 0.8f),
+                            fontSize = 12.sp
+                        )
+                    }
                 }
 
                 Column(modifier = Modifier.padding(16.dp)) {
