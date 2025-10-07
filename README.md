@@ -6,6 +6,7 @@ and comprehensive unit testing.
 The UI replicates a trending liquid glass pattern. A plus is also the animation at the details screen card
 
 Screens Peek
+
 https://github.com/user-attachments/assets/7cc3010a-a48e-4e2c-b327-9957bb6316ad
 
 
